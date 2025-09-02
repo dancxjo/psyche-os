@@ -1,0 +1,25 @@
+[package]
+name = "created"
+version = "0.1.0"
+edition = "2021"
+description = "A simple daemon that logs 'hello world' and reads config from /etc or XDG dirs."
+license = "MIT OR Apache-2.0"
+
+[dependencies]
+log = "0.4"
+env_logger = "0.11"
+serde = { version = "1.0", features = ["derive"] }
+toml = "0.8"
+ctrlc = "3.4"
+serialport = { version = "4", default-features = false }
+
+[package.metadata.deb]
+maintainer = "Your Name <you@example.com>"
+extended-description = "A tiny service to demonstrate daemon packaging, logging, and config lookup."
+depends = "systemd | systemd-services"
+assets = [
+    ["assets/systemd/created.service", "/lib/systemd/system/created.service", "644"],
+    ["assets/etc/created/config.toml", "/etc/created/config.toml", "644"],
+    ["assets/udev/99-created-serial.rules", "/lib/udev/rules.d/99-created-serial.rules", "644"],
+]
+maintainer-scripts = "debian"

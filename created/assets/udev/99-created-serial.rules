@@ -1,0 +1,5 @@
+# Ensure dialout group access (usually default) and add a stable symlink
+# for USB serial adapters that appear as ttyUSB* or ttyACM*.
+
+SUBSYSTEM=="tty", KERNEL=="ttyUSB[0-9]*|ttyACM[0-9]*", GROUP="dialout", MODE="0660", SYMLINK+="serial/by-irobot-%k"
+

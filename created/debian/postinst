@@ -1,0 +1,33 @@
+#!/bin/sh
+set -e
+
+case "$1" in
+    configure)
+        # Ensure system user and group exist and have dialout access
+        if ! id -u created >/dev/null 2>&1; then
+            if command -v adduser >/dev/null 2>&1; then
+                adduser --system --group --home /nonexistent --no-create-home --shell /usr/sbin/nologin created || true
+            else
+                useradd -r -M -s /usr/sbin/nologin -U created || true
+            fi
+        fi
+        # add to dialout for serial devices
+        if getent group dialout >/dev/null 2>&1; then
+            usermod -a -G dialout created || true
+        fi
+
+        # Reload udev rules to pick up our symlinks and perms
+        if command -v udevadm >/dev/null 2>&1; then
+            udevadm control --reload || true
+            udevadm trigger --subsystem-match=tty || true
+        fi
+        # Reload systemd units and enable service
+        if command -v systemctl >/dev/null 2>&1; then
+            systemctl daemon-reload || true
+            systemctl enable created.service || true
+            systemctl restart created.service || true
+        fi
+    ;;
+esac
+
+exit 0

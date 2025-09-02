@@ -1,0 +1,14 @@
+# created daemon configuration
+
+# Interval in milliseconds between log lines
+interval_ms = 5000
+
+# Message to log each interval
+message = "hello world"
+
+[serial]
+# Optional: serial device path (e.g., "/dev/ttyUSB0"). If omitted, autodetects.
+# path = "/dev/ttyUSB0"
+
+# Baud rate. Create 1 default is typically 57600.
+baud = 57600

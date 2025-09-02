@@ -1,0 +1,16 @@
+[Unit]
+Description=created hello world daemon
+After=network.target
+
+[Service]
+Type=simple
+ExecStart=/usr/bin/created
+Restart=always
+RestartSec=5s
+Environment=RUST_LOG=info
+User=created
+Group=created
+SupplementaryGroups=dialout
+
+[Install]
+WantedBy=multi-user.target
